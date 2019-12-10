@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      * {
+        font: 14px normal Arial, sans-serif;
+        color: #000000;
+      }
+      table {
+        margin: 50px auto;
+      }
+      table,
+      td {
+        border: 1px solid #aaa;
+        border-collapse: collapse;
+      }
+      th {
+        padding: 10px;
+        font-weight: bold;
+      }
+      td {
+        background-color: #eeeeee;
+        width: 80px;
+        height: 80px;
+      }
+      table:first-child tr td {
+        cursor: pointer;
+      }
+      td[colspan="4"] {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="4">Fill a field:</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Text: <br /><input type="text" id="text" value="" /></td>
+          <td>Field X: <br /><input type="text" id="field_x" value="" /></td>
+          <td>Field Y: <br /><input type="text" id="field_y" value="" /></td>
+          <td>CSS: <br /><input type="text" id="css" value="" /></td>
+        </tr>
+        <tr>
+          <td colspan="4"><button id="mybutton">Fill</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <script>
+      //Add Style
+
+      document.querySelector("#mybutton").addEventListener("click", fill);
+      function fill() {
+        let text = document.getElementById("text").value;
+        let rowValue = document.getElementById("field_x").value;
+        let colValue = document.getElementById("field_y").value;
+        let color = document.getElementById("css").value;
+        let table = document.getElementsByTagName("tbody")[0];
+        let new_Col, new_row, tr, td;
+        if (rowValue > 4 || colValue > 4) {
+          console.log("y");
+          for (let i = 0; i < rowValue - 4; i++) {
+            new_row = document.createElement("tr");
+            for (let j = 0; j < 4; j++) {
+              new_Col = document.createElement("td");
+              new_row.appendChild(new_Col);
+            }
+            table.appendChild(new_row);
+          }
+          let count = 0;
+          while (count < colValue - 4) {
+            let x = Array.from(table.children);
+            x.forEach(child => {
+              child.appendChild(document.createElement("td"));
+            });
+            count++;
+          }
+          tr = table.children[rowValue - 1];
+          td = tr.children[colValue - 1];
+          console.log(td);
+          td.appendChild(document.createTextNode(text));
+          td.style.background = color;
+        } else {
+          tr = table.children[rowValue - 1];
+          td = tr.children[colValue - 1];
+          td.appendChild(document.createTextNode(text));
+          td.style.background = color;
+        }
+      }
+
+      //Remove Style
+
+      document
+        .getElementsByTagName("tbody")[0]
+        .addEventListener("click", remove);
+      function remove(e) {
+        let e_Target = e.target;
+        e_Target.innerHTML = "";
+        e_Target.style.background = "#eeeeee";
+      }
+    </script>
+  </body>
+</html>
